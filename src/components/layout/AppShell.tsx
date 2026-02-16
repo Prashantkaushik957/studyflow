@@ -36,11 +36,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
                 <div style={{
                     position: 'absolute', inset: 0,
-                    // Richer, deeper gradient for "Cosmic Pro" look
+                    // Lighter overlay for better background visibility
                     background: theme === 'dark'
-                        ? 'linear-gradient(to bottom, rgba(5,5,10,0.6), rgba(10,10,20,0.8))'
-                        : 'rgba(255,255,255,0.6)',
-                    backdropFilter: 'blur(8px)' // Reduced blur for clarity
+                        ? 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5))'
+                        : 'rgba(255,255,255,0.4)',
+                    backdropFilter: 'blur(4px)',
+                    WebkitBackdropFilter: 'blur(4px)'
                 }} />
             </div>
 
