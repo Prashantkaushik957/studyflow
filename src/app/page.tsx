@@ -82,9 +82,16 @@ export default function RoleSelectionPage() {
         }}>
           StudyFlow
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 400 }}>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 400, marginBottom: 16 }}>
           AI-Powered Productivity & Study Management System
         </p>
+        <div style={{
+          display: 'inline-block', padding: '6px 16px', borderRadius: 20,
+          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+          fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 500,
+        }}>
+          Made by <span style={{ color: '#818cf8', fontWeight: 600 }}>Prashant Kaushik</span>
+        </div>
       </motion.div>
 
       {/* Role Cards */}
