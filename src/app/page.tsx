@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useStore, seedSampleData } from '@/lib/store';
 import { useEffect } from 'react';
 import { Shield, User, Sparkles, ArrowRight, BarChart3, Users } from 'lucide-react';
+import Image from 'next/image';
 
 export default function RoleSelectionPage() {
   const router = useRouter();
@@ -29,30 +30,27 @@ export default function RoleSelectionPage() {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 30%, #0a1628 60%, #0a0a1a 100%)',
       padding: 24,
       position: 'relative',
       overflow: 'hidden',
     }}>
-      {/* Animated background orbs */}
-      <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        style={{
-          position: 'absolute', width: 500, height: 500, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)',
-          top: '-10%', left: '-10%',
-        }}
-      />
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-        style={{
-          position: 'absolute', width: 600, height: 600, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 70%)',
-          bottom: '-15%', right: '-10%',
-        }}
-      />
+      {/* Photorealistic Background */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <Image
+          src="/assets/bg_landing.png"
+          alt="Cinematic Study Setup"
+          fill
+          style={{ objectFit: 'cover' }}
+          quality={100}
+          priority
+        />
+        {/* Premium Dark Overlay */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, rgba(5,5,20,0.4), rgba(5,5,20,0.8))',
+          backdropFilter: 'blur(2px)'
+        }} />
+      </div>
 
       {/* Logo & Title */}
       <motion.div
@@ -70,6 +68,8 @@ export default function RoleSelectionPage() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 16px', fontSize: 32,
             boxShadow: '0 8px 32px rgba(99,102,241,0.4)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.1)',
           }}
         >
           <Sparkles size={32} color="white" />
@@ -79,18 +79,20 @@ export default function RoleSelectionPage() {
           background: 'linear-gradient(135deg, #c7d2fe, #e9d5ff, #fde68a)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           marginBottom: 8,
+          textShadow: '0 4px 20px rgba(0,0,0,0.5)',
         }}>
           StudyFlow
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16, maxWidth: 400, marginBottom: 16 }}>
+        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, maxWidth: 400, marginBottom: 16, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
           AI-Powered Productivity & Study Management System
         </p>
         <div style={{
           display: 'inline-block', padding: '6px 16px', borderRadius: 20,
-          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-          fontSize: 13, color: 'rgba(255,255,255,0.6)', fontWeight: 500,
+          background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+          fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 500,
+          backdropFilter: 'blur(10px)',
         }}>
-          Made by <span style={{ color: '#818cf8', fontWeight: 600 }}>Prashant Kaushik</span>
+          Made by <span style={{ color: '#a5b4fc', fontWeight: 600 }}>Prashant Kaushik</span>
         </div>
       </motion.div>
 
@@ -109,10 +111,11 @@ export default function RoleSelectionPage() {
           onClick={() => selectRole('admin')}
           style={{
             cursor: 'pointer', borderRadius: 20, padding: 32,
-            background: 'linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08))',
-            border: '1px solid rgba(99,102,241,0.25)',
-            backdropFilter: 'blur(20px)',
+            background: 'rgba(30,30,40,0.6)',
+            border: '1px solid rgba(99,102,241,0.3)',
+            backdropFilter: 'blur(24px)',
             position: 'relative', overflow: 'hidden',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
           }}
         >
           <div style={{
@@ -130,19 +133,19 @@ export default function RoleSelectionPage() {
           <h2 style={{ fontSize: 22, fontWeight: 700, color: 'white', marginBottom: 8, fontFamily: "'Space Grotesk', sans-serif" }}>
             Admin Portal
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
             Monitor all users, analyze platform metrics, manage devices and track engagement across the entire platform.
           </p>
           <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
             <span style={{
               padding: '4px 10px', borderRadius: 8, fontSize: 12,
-              background: 'rgba(99,102,241,0.15)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.2)'
+              background: 'rgba(99,102,241,0.2)', color: '#c7d2fe', border: '1px solid rgba(99,102,241,0.3)'
             }}>
               <Users size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} /> User Management
             </span>
             <span style={{
               padding: '4px 10px', borderRadius: 8, fontSize: 12,
-              background: 'rgba(139,92,246,0.15)', color: '#c4b5fd', border: '1px solid rgba(139,92,246,0.2)'
+              background: 'rgba(139,92,246,0.2)', color: '#ddd6fe', border: '1px solid rgba(139,92,246,0.3)'
             }}>
               <BarChart3 size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} /> Analytics
             </span>
@@ -164,10 +167,11 @@ export default function RoleSelectionPage() {
           onClick={() => selectRole('user')}
           style={{
             cursor: 'pointer', borderRadius: 20, padding: 32,
-            background: 'linear-gradient(135deg, rgba(16,185,129,0.12), rgba(6,182,212,0.08))',
-            border: '1px solid rgba(16,185,129,0.25)',
-            backdropFilter: 'blur(20px)',
+            background: 'rgba(30,30,40,0.6)',
+            border: '1px solid rgba(16,185,129,0.3)',
+            backdropFilter: 'blur(24px)',
             position: 'relative', overflow: 'hidden',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
           }}
         >
           <div style={{
@@ -185,19 +189,19 @@ export default function RoleSelectionPage() {
           <h2 style={{ fontSize: 22, fontWeight: 700, color: 'white', marginBottom: 8, fontFamily: "'Space Grotesk', sans-serif" }}>
             User Portal
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.6, marginBottom: 20 }}>
             Access your personalized dashboard, manage tasks, track habits, and supercharge your study sessions with AI insights.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 20 }}>
             <span style={{
               padding: '4px 10px', borderRadius: 8, fontSize: 12,
-              background: 'rgba(16,185,129,0.15)', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.2)'
+              background: 'rgba(16,185,129,0.2)', color: '#a7f3d0', border: '1px solid rgba(16,185,129,0.3)'
             }}>
               📋 Tasks & Kanban
             </span>
             <span style={{
               padding: '4px 10px', borderRadius: 8, fontSize: 12,
-              background: 'rgba(6,182,212,0.15)', color: '#67e8f9', border: '1px solid rgba(6,182,212,0.2)'
+              background: 'rgba(6,182,212,0.2)', color: '#a5f3fc', border: '1px solid rgba(6,182,212,0.3)'
             }}>
               🎯 Pomodoro
             </span>
@@ -215,7 +219,7 @@ export default function RoleSelectionPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        style={{ color: 'rgba(255,255,255,0.25)', fontSize: 13, marginTop: 48, position: 'relative', zIndex: 1 }}
+        style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 48, position: 'relative', zIndex: 1, textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
       >
         © 2026 StudyFlow. Built with ❤️ for productive students.
       </motion.p>

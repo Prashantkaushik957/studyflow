@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Sidebar from '@/components/layout/Sidebar';
 import Header from '@/components/layout/Header';
 import { useStore, seedSampleData } from '@/lib/store';
+import Image from 'next/image';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const collapsed = useStore((s) => s.sidebarCollapsed);
@@ -17,6 +18,23 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
     return (
         <>
+            {/* Photorealistic Background */}
+            <div style={{ position: 'fixed', inset: 0, zIndex: -1 }}>
+                <Image
+                    src="/assets/bg_app.png"
+                    alt="App Background"
+                    fill
+                    style={{ objectFit: 'cover', transform: 'scale(1.05)' }} // Slight zoom to avoid edges
+                    quality={90}
+                    priority
+                />
+                <div style={{
+                    position: 'absolute', inset: 0,
+                    background: theme === 'dark' ? 'rgba(5,5,15,0.75)' : 'rgba(255,255,255,0.6)',
+                    backdropFilter: 'blur(12px)'
+                }} />
+            </div>
+
             <Sidebar />
             <Header />
             <motion.main
@@ -26,6 +44,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     marginTop: 64,
                     minHeight: 'calc(100vh - 64px)',
                     padding: '28px 32px',
+                    position: 'relative',
+                    zIndex: 1,
                 }}
             >
                 {children}
