@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import NextImage from 'next/image';
 import { motion } from 'framer-motion';
 import {
     Settings, Moon, Sun, Monitor, Bell, Download, User, Palette,
@@ -52,7 +53,7 @@ const backgrounds = [
 ];
 
 export default function SettingsPage() {
-    const { theme, toggleTheme, currentRole, setRole, background, setBackground } = useStore((s) => ({
+    const { theme, toggleTheme, currentRole, setRole, background: rawBackground, setBackground } = useStore((s) => ({
         theme: s.theme,
         toggleTheme: s.toggleTheme,
         currentRole: s.currentRole,
@@ -60,6 +61,9 @@ export default function SettingsPage() {
         background: s.background,
         setBackground: s.setBackground,
     }));
+
+    // Fallback for background
+    const background = rawBackground || '/assets/bg_app.png';
     const [activeTab, setActiveTab] = useState('profile');
 
     // Mock user for display since we don't have auth
@@ -196,16 +200,17 @@ export default function SettingsPage() {
                                     : 'border-transparent hover:border-[var(--border-strong)]'
                                     }`}
                             >
-                                <img
+                                <NextImage
                                     src={bg.src}
                                     alt={bg.name}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
                                     <span className="text-white font-medium text-sm">{bg.name}</span>
                                 </div>
                                 {background === bg.src && (
-                                    <div className="absolute top-2 right-2 w-6 h-6 bg-[var(--primary)] rounded-full flex items-center justify-center text-black text-xs font-bold">
+                                    <div className="absolute top-2 right-2 w-6 h-6 bg-[var(--primary)] rounded-full flex items-center justify-center text-black text-xs font-bold z-20">
                                         ✓
                                     </div>
                                 )}

@@ -10,7 +10,7 @@ import Image from 'next/image';
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const collapsed = useStore((s) => s.sidebarCollapsed);
     const theme = useStore((s) => s.theme);
-    const background = useStore((s) => s.background);
+    const background = useStore((s) => s.background) || '/assets/bg_app.png';
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
