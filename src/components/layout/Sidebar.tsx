@@ -16,6 +16,7 @@ import {
     ChevronRight,
     Sparkles,
     Zap,
+    LogOut,
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 
@@ -175,6 +176,23 @@ export default function Sidebar() {
                                 </div>
                             </div>
                         </div>
+                        <button
+                            onClick={() => {
+                                useStore.getState().setRole(null);
+                                window.location.href = '/';
+                            }}
+                            style={{
+                                width: '100%', padding: '10px 14px', borderRadius: 10,
+                                background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)',
+                                color: '#818cf8', cursor: 'pointer', fontSize: 13, fontWeight: 600,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                                transition: 'all 0.2s',
+                            }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(99,102,241,0.15)')}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(99,102,241,0.1)')}
+                        >
+                            <LogOut size={16} /> Switch Portal
+                        </button>
                     </motion.div>
                 )}
             </AnimatePresence>
