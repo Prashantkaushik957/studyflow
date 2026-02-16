@@ -103,6 +103,10 @@ interface AppState {
     sidebarCollapsed: boolean;
     toggleSidebar: () => void;
 
+    // Appearance
+    background: string;
+    setBackground: (bg: string) => void;
+
     // Tasks
     tasks: Task[];
     addTask: (task: Omit<Task, 'id' | 'createdAt' | 'actualMinutes' | 'isTimerRunning'>) => void;
@@ -159,6 +163,10 @@ export const useStore = create<AppState>()(
             // Sidebar
             sidebarCollapsed: false,
             toggleSidebar: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
+
+            // Appearance - Background
+            background: '/assets/bg_app.png',
+            setBackground: (bg) => set({ background: bg }),
 
             // Tasks
             tasks: [],

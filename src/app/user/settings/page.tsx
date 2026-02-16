@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     Settings, Moon, Sun, Monitor, Bell, Download, User, Palette,
-    Clock, Shield, Database, ChevronRight, Check, Trash2, Info, Upload
+    Clock, Shield, Database, ChevronRight, Check, Trash2, Info, Upload, ImageIcon
 } from 'lucide-react';
 
 import { useStore } from '@/lib/store';
@@ -42,9 +42,38 @@ function SettingRow({ label, description, children }: { label: string; descripti
     );
 }
 
+const backgrounds = [
+    { id: 'bg_app', name: 'Deep Cosmos (Default)', src: '/assets/bg_app.png' },
+    { id: 'bg_cyberpunk_loft', name: 'Cyberpunk Loft', src: '/assets/bg_cyberpunk_loft.png' },
+    { id: 'bg_forest_retreat', name: 'Forest Retreat', src: '/assets/bg_forest_retreat.png' },
+    { id: 'bg_study_room_rain', name: 'Rainy Study', src: '/assets/bg_study_room_rain.png' },
+    { id: 'bg_grand_library', name: 'Grand Library', src: '/assets/bg_grand_library.png' },
+    { id: 'bg_zen_garden', name: 'Zen Garden', src: '/assets/bg_zen_garden.png' },
+];
+
 export default function SettingsPage() {
-    const theme = useStore((s) => s.theme);
-    const toggleTheme = useStore((s) => s.toggleTheme);
+    const { theme, toggleTheme, currentRole, setRole, background, setBackground } = useStore((s) => ({
+        theme: s.theme,
+        toggleTheme: s.toggleTheme,
+        currentRole: s.currentRole,
+        setRole: s.setRole,
+        background: s.background,
+        setBackground: s.setBackground,
+    }));
+    const [activeTab, setActiveTab] = useState('profile');
+
+    // Mock user for display since we don't have auth
+    const user = {
+        name: 'Prashant Kaushik',
+        email: 'prashant@example.com',
+        avatar: '👨‍💻',
+        role: currentRole
+    };
+
+    const logout = () => {
+        setRole(null);
+        window.location.href = '/'; // Force reload/redirect to landing
+    };
     const pomodoroSettings = useStore((s) => s.pomodoroSettings);
     const updatePomodoroSettings = useStore((s) => s.updatePomodoroSettings);
     const tasks = useStore((s) => s.tasks);
@@ -141,35 +170,53 @@ export default function SettingsPage() {
                 </div>
             </SettingSection>
 
-            {/* Appearance */}
-            <SettingSection title="Appearance" icon={Palette}>
-                <SettingRow label="Theme" description="Choose your preferred color scheme">
-                    <div style={{ display: 'flex', gap: 6 }}>
-                        {[
-                            { key: 'light', icon: Sun, label: 'Light' },
-                            { key: 'dark', icon: Moon, label: 'Dark' },
-                        ].map((opt) => (
-                            <motion.button
-                                key={opt.key}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => { if (theme !== opt.key) toggleTheme(); }}
-                                style={{
-                                    padding: '8px 16px', borderRadius: 10, cursor: 'pointer',
-                                    border: theme === opt.key ? '2px solid var(--primary-500)' : '1px solid var(--border-default)',
-                                    background: theme === opt.key ? 'rgba(99,102,241,0.1)' : 'var(--surface-input)',
-                                    color: theme === opt.key ? 'var(--primary-500)' : 'var(--text-secondary)',
-                                    display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13,
-                                }}
+
+            <SettingSection title="Appearance" icon={Monitor}>
+                <SettingRow label="Theme" description="Toggle between Light and Dark mode">
+                    <button
+                        onClick={toggleTheme}
+                        className="px-4 py-2 rounded-lg bg-[var(--surface-hover)] border border-[var(--border-subtle)] text-sm font-medium hover:bg-[var(--surface-active)] transition-colors"
+                    >
+                        {theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
+                    </button>
+                </SettingRow>
+
+                <div className="pt-6 border-t border-[var(--border-subtle)] mt-4">
+                    <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+                        <ImageIcon size={20} className="text-[var(--primary)]" />
+                        Environment
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {backgrounds.map((bg) => (
+                            <button
+                                key={bg.id}
+                                onClick={() => setBackground(bg.src)}
+                                className={`relative aspect-video rounded-xl overflow-hidden border-2 transition-all group ${background === bg.src
+                                    ? 'border-[var(--primary)] shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]'
+                                    : 'border-transparent hover:border-[var(--border-strong)]'
+                                    }`}
                             >
-                                <opt.icon size={15} /> {opt.label}
-                            </motion.button>
+                                <img
+                                    src={bg.src}
+                                    alt={bg.name}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span className="text-white font-medium text-sm">{bg.name}</span>
+                                </div>
+                                {background === bg.src && (
+                                    <div className="absolute top-2 right-2 w-6 h-6 bg-[var(--primary)] rounded-full flex items-center justify-center text-black text-xs font-bold">
+                                        ✓
+                                    </div>
+                                )}
+                            </button>
                         ))}
                     </div>
-                </SettingRow>
+                </div>
             </SettingSection>
 
             {/* Pomodoro Settings */}
-            <SettingSection title="Pomodoro Timer" icon={Clock}>
+            < SettingSection title="Pomodoro Timer" icon={Clock} >
                 <SettingRow label="Focus Duration" description="Minutes per focus session">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         {[15, 25, 30, 45, 60].map((mins) => (
@@ -224,38 +271,40 @@ export default function SettingsPage() {
                         ))}
                     </div>
                 </SettingRow>
-            </SettingSection>
+            </SettingSection >
 
             {/* Notifications */}
-            <SettingSection title="Notifications" icon={Bell}>
-                {Object.entries(notifications).map(([key, value]) => (
-                    <SettingRow
-                        key={key}
-                        label={key.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase())}
-                        description={{ taskReminders: 'Get reminded before task deadlines', breakReminders: 'Reminders to take breaks', dailyReport: 'Daily summary of progress', achievements: 'Celebrate milestones', motivational: 'Inspirational quotes during study' }[key]}
-                    >
-                        <motion.button
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setNotifications({ ...notifications, [key]: !value })}
-                            style={{
-                                width: 48, height: 28, borderRadius: 14, padding: 3, cursor: 'pointer',
-                                background: value ? 'var(--primary-500)' : 'var(--border-default)',
-                                border: 'none', display: 'flex', alignItems: 'center',
-                                justifyContent: value ? 'flex-end' : 'flex-start',
-                                transition: 'background 0.2s',
-                            }}
+            < SettingSection title="Notifications" icon={Bell} >
+                {
+                    Object.entries(notifications).map(([key, value]) => (
+                        <SettingRow
+                            key={key}
+                            label={key.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase())}
+                            description={{ taskReminders: 'Get reminded before task deadlines', breakReminders: 'Reminders to take breaks', dailyReport: 'Daily summary of progress', achievements: 'Celebrate milestones', motivational: 'Inspirational quotes during study' }[key]}
                         >
-                            <motion.div
-                                layout
-                                style={{ width: 22, height: 22, borderRadius: '50%', background: 'white', boxShadow: 'var(--shadow-sm)' }}
-                            />
-                        </motion.button>
-                    </SettingRow>
-                ))}
-            </SettingSection>
+                            <motion.button
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => setNotifications({ ...notifications, [key]: !value })}
+                                style={{
+                                    width: 48, height: 28, borderRadius: 14, padding: 3, cursor: 'pointer',
+                                    background: value ? 'var(--primary-500)' : 'var(--border-default)',
+                                    border: 'none', display: 'flex', alignItems: 'center',
+                                    justifyContent: value ? 'flex-end' : 'flex-start',
+                                    transition: 'background 0.2s',
+                                }}
+                            >
+                                <motion.div
+                                    layout
+                                    style={{ width: 22, height: 22, borderRadius: '50%', background: 'white', boxShadow: 'var(--shadow-sm)' }}
+                                />
+                            </motion.button>
+                        </SettingRow>
+                    ))
+                }
+            </SettingSection >
 
             {/* Data Management */}
-            <SettingSection title="Data Management" icon={Database}>
+            < SettingSection title="Data Management" icon={Database} >
                 <SettingRow label="Export Data" description="Download your data as JSON or CSV">
                     <div style={{ display: 'flex', gap: 10 }}>
                         <motion.button
@@ -318,14 +367,14 @@ export default function SettingsPage() {
                         <Trash2 size={14} /> Clear Data
                     </motion.button>
                 </SettingRow>
-            </SettingSection>
+            </SettingSection >
 
             {/* About */}
-            <motion.div variants={item} style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)', fontSize: 13 }}>
+            < motion.div variants={item} style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)', fontSize: 13 }}>
                 <p style={{ fontWeight: 600 }}>StudyFlow v1.0.0</p>
                 <p style={{ marginTop: 4 }}>AI-Powered Productivity & Study Management</p>
-            </motion.div>
-        </motion.div>
+            </motion.div >
+        </motion.div >
 
     );
 }

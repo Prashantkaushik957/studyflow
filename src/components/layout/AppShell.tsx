@@ -10,6 +10,7 @@ import Image from 'next/image';
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const collapsed = useStore((s) => s.sidebarCollapsed);
     const theme = useStore((s) => s.theme);
+    const background = useStore((s) => s.background);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -20,14 +21,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <>
             {/* Photorealistic Background */}
             <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
-                <Image
-                    src="/assets/bg_app.png"
-                    alt="App Background"
-                    fill
-                    style={{ objectFit: 'cover', transform: 'scale(1.05)' }} // Slight zoom to avoid edges
-                    quality={90}
-                    priority
-                />
+                {background.startsWith('/') ? (
+                    <Image
+                        src={background}
+                        alt="App Background"
+                        fill
+                        style={{ objectFit: 'cover', transform: 'scale(1.05)' }}
+                        quality={90}
+                        priority
+                    />
+                ) : (
+                    <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                )}
+
                 <div style={{
                     position: 'absolute', inset: 0,
                     // Richer, deeper gradient for "Cosmic Pro" look
