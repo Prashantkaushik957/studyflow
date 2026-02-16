@@ -42,23 +42,19 @@ function TaskCard({ task, index }: { task: Task; index: number }) {
                     {...provided.draggableProps}
                     style={{
                         ...provided.draggableProps.style,
-                        marginBottom: 8,
+                        marginBottom: 12,
                     }}
                 >
                     <motion.div
                         layout
-                        className={`priority-${task.priority.toLowerCase()}`}
+                        className={`glass-card priority-${task.priority.toLowerCase()}`}
                         style={{
-                            padding: '14px 16px',
-                            borderRadius: 12,
-                            background: snapshot.isDragging ? 'var(--surface-card-hover)' : 'var(--surface-card)',
-                            backdropFilter: 'blur(12px)',
-                            border: '1px solid var(--border-default)',
-                            boxShadow: snapshot.isDragging ? 'var(--shadow-lg)' : 'var(--shadow-sm)',
+                            padding: '16px 18px',
+                            background: snapshot.isDragging ? 'rgba(255,255,255,0.15)' : undefined, // Optional highlight
                             cursor: 'grab',
-                            transition: 'background 0.2s, box-shadow 0.2s',
                         }}
                     >
+
                         {/* Header */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                             <div {...provided.dragHandleProps} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -201,19 +197,16 @@ function CreateTaskModal({ onClose }: { onClose: () => void }) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
+                className="glass-card-static"
                 style={{
                     width: '100%',
                     maxWidth: 520,
-                    background: 'var(--surface-modal)',
-                    backdropFilter: 'blur(24px)',
-                    borderRadius: 20,
-                    border: '1px solid var(--border-default)',
                     padding: 32,
-                    boxShadow: 'var(--shadow-lg)',
+                    // background/border handled by class
                 }}
             >
                 {/* Modal Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, position: 'relative', zIndex: 10 }}>
                     <h2 style={{ fontSize: 20, fontWeight: 700 }}>Create New Task</h2>
                     <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: 4 }}>
                         <X size={20} />
@@ -308,92 +301,96 @@ export default function TasksPage() {
     };
 
     return (
-        
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                {/* Page Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-                    <div>
-                        <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 4 }}>Task Board</h1>
-                        <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
-                            {tasks.length} total tasks • {tasks.filter((t) => t.status === 'done').length} completed
-                        </p>
-                    </div>
-                    <motion.button
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => setShowModal(true)}
-                        className="btn-gradient"
-                        style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 14, fontSize: 14 }}
-                    >
-                        <Plus size={18} /> New Task
-                    </motion.button>
+
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            {/* Page Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                <div>
+                    <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 4 }}>Task Board</h1>
+                    <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
+                        {tasks.length} total tasks • {tasks.filter((t) => t.status === 'done').length} completed
+                    </p>
                 </div>
+                <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => setShowModal(true)}
+                    className="btn-gradient"
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 14, fontSize: 14 }}
+                >
+                    <Plus size={18} /> New Task
+                </motion.button>
+            </div>
 
-                {/* Kanban Board */}
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 20 }}>
-                        {columns.map((col) => {
-                            const colTasks = tasks.filter((t) => t.status === col.id);
-                            return (
-                                <div key={col.id} style={{ flex: 1, minWidth: 260 }}>
-                                    {/* Column Header */}
-                                    <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 8,
-                                        marginBottom: 14,
-                                        padding: '10px 14px',
-                                        borderRadius: 12,
-                                        background: `${col.color}10`,
+            {/* Kanban Board */}
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 20 }}>
+                    {columns.map((col) => {
+                        const colTasks = tasks.filter((t) => t.status === col.id);
+                        return (
+                            <div key={col.id} style={{ flex: 1, minWidth: 260 }}>
+                                {/* Column Header */}
+                                <div className="glass-card-static" style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 8,
+                                    marginBottom: 14,
+                                    padding: '12px 16px',
+                                    background: `${col.color}15`, // Keep subtle tint
+                                    borderLeft: `3px solid ${col.color}`, // Accent border
+                                    borderTop: 'none',
+                                    borderRight: 'none',
+                                    borderBottom: 'none',
+                                    borderRadius: 16,
+                                }}>
+                                    <col.icon size={16} style={{ color: col.color }} />
+                                    <span style={{ fontSize: 14, fontWeight: 700, color: col.color }}>{col.label}</span>
+                                    <span style={{
+                                        fontSize: 12,
+                                        fontWeight: 700,
+                                        padding: '2px 8px',
+                                        borderRadius: 100,
+                                        background: `${col.color}15`,
+                                        color: col.color,
+                                        marginLeft: 'auto',
                                     }}>
-                                        <col.icon size={16} style={{ color: col.color }} />
-                                        <span style={{ fontSize: 14, fontWeight: 700, color: col.color }}>{col.label}</span>
-                                        <span style={{
-                                            fontSize: 12,
-                                            fontWeight: 700,
-                                            padding: '2px 8px',
-                                            borderRadius: 100,
-                                            background: `${col.color}15`,
-                                            color: col.color,
-                                            marginLeft: 'auto',
-                                        }}>
-                                            {colTasks.length}
-                                        </span>
-                                    </div>
-
-                                    {/* Drop Zone */}
-                                    <Droppable droppableId={col.id}>
-                                        {(provided, snapshot) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.droppableProps}
-                                                style={{
-                                                    minHeight: 200,
-                                                    padding: 4,
-                                                    borderRadius: 14,
-                                                    border: snapshot.isDraggingOver ? `2px dashed ${col.color}` : '2px dashed transparent',
-                                                    background: snapshot.isDraggingOver ? `${col.color}08` : 'transparent',
-                                                    transition: 'all 0.2s',
-                                                }}
-                                            >
-                                                {colTasks.map((task, index) => (
-                                                    <TaskCard key={task.id} task={task} index={index} />
-                                                ))}
-                                                {provided.placeholder}
-                                            </div>
-                                        )}
-                                    </Droppable>
+                                        {colTasks.length}
+                                    </span>
                                 </div>
-                            );
-                        })}
-                    </div>
-                </DragDropContext>
 
-                {/* Create Task Modal */}
-                <AnimatePresence>
-                    {showModal && <CreateTaskModal onClose={() => setShowModal(false)} />}
-                </AnimatePresence>
-            </motion.div>
-        
+                                {/* Drop Zone */}
+                                <Droppable droppableId={col.id}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                            style={{
+                                                minHeight: 200,
+                                                padding: 4,
+                                                borderRadius: 14,
+                                                border: snapshot.isDraggingOver ? `2px dashed ${col.color}` : '2px dashed transparent',
+                                                background: snapshot.isDraggingOver ? `${col.color}08` : 'transparent',
+                                                transition: 'all 0.2s',
+                                            }}
+                                        >
+                                            {colTasks.map((task, index) => (
+                                                <TaskCard key={task.id} task={task} index={index} />
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
+                            </div>
+                        );
+                    })}
+                </div>
+            </DragDropContext>
+
+            {/* Create Task Modal */}
+            <AnimatePresence>
+                {showModal && <CreateTaskModal onClose={() => setShowModal(false)} />}
+            </AnimatePresence>
+        </motion.div>
+
     );
 }
