@@ -1,5 +1,7 @@
 # 📚 StudyFlow — AI-Powered Productivity & Study Management
 
+**Made by Prashant Kaushik**
+
 > **🌐 Live Demo: [prashantkaushik957.github.io/studyflow](https://prashantkaushik957.github.io/studyflow/)**
 
 A premium, feature-rich productivity application built with Next.js, featuring dual portals for users and administrators, beautiful dark-mode UI with glassmorphism effects, and smart study management tools.
