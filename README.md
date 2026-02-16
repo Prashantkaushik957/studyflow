@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 StudyFlow — AI-Powered Productivity & Study Management
 
-## Getting Started
+> **🌐 Live Demo: [prashantkaushik957.github.io/studyflow](https://prashantkaushik957.github.io/studyflow/)**
 
-First, run the development server:
+A premium, feature-rich productivity application built with Next.js, featuring dual portals for users and administrators, beautiful dark-mode UI with glassmorphism effects, and smart study management tools.
+
+---
+
+## ✨ Features
+
+### 🎯 User Portal (`/user`)
+| Feature | Description |
+|---------|-------------|
+| **Dashboard** | Productivity score, activity charts, today's tasks, AI insights |
+| **Task Manager** | Kanban-style board with drag-and-drop, priorities, and deadlines |
+| **Study Planner** | Subject-wise study planning with progress tracking |
+| **Pomodoro Timer** | Focus timer with session history and streak tracking |
+| **Habit Tracker** | Daily habit tracking with streaks and visual progress |
+| **Analytics** | Detailed productivity analytics with charts and trends |
+| **Settings** | Theme, notifications, and account preferences |
+
+### 🛡️ Admin Portal (`/admin`)
+| Feature | Description |
+|---------|-------------|
+| **Dashboard** | User stats, growth charts, device distribution, revenue metrics |
+| **User Management** | Searchable/filterable table of all registered users |
+| **Platform Analytics** | Feature usage, retention curves, engagement, geo distribution |
+| **Settings** | Platform configuration, maintenance mode, data management |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 + Custom CSS (glassmorphism, gradients)
+- **State:** Zustand (with persistence)
+- **Charts:** Recharts
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
+- **Deployment:** GitHub Pages via GitHub Actions
+- **Mobile:** Capacitor (iOS)
+
+---
+
+## 🚀 Getting Started
 
 ```bash
+# Clone the repository
+git clone https://github.com/Prashantkaushik957/studyflow.git
+cd studyflow
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Build & Deploy
 
-## Learn More
+```bash
+# Production build (static export)
+npx next build
 
-To learn more about Next.js, take a look at the following resources:
+# Output is in the /out directory
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Deployment to GitHub Pages happens automatically on push to `main` via GitHub Actions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📸 Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Role Selection
+Choose between Admin and User portals from the landing page.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Admin Dashboard
+View user metrics, growth trends, device analytics, and recent signups.
+
+### User Dashboard
+Track productivity score, manage tasks, view AI-powered insights.
+
+---
+
+## 📄 License
+
+MIT
+
+---
+
+<p align="center">
+  Built with ❤️ by <a href="https://github.com/Prashantkaushik957">Prashant Kaushik</a>
+</p>
