@@ -7,9 +7,9 @@ const nextConfig: NextConfig = {
   output: 'export',
   trailingSlash: true,
   basePath: isGithubPages ? `/${repoName}` : '',
-  assetPrefix: isGithubPages ? `/${repoName}/` : '',
   images: {
-    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './src/lib/image-loader.ts',
   },
 };
 
