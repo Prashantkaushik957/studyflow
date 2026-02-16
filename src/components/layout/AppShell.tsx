@@ -19,7 +19,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     return (
         <>
             {/* Photorealistic Background */}
-            <div style={{ position: 'fixed', inset: 0, zIndex: -1 }}>
+            <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
                 <Image
                     src="/assets/bg_app.png"
                     alt="App Background"
@@ -30,8 +30,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 />
                 <div style={{
                     position: 'absolute', inset: 0,
-                    background: theme === 'dark' ? 'rgba(5,5,15,0.75)' : 'rgba(255,255,255,0.6)',
-                    backdropFilter: 'blur(12px)'
+                    // Richer, deeper gradient for "Cosmic Pro" look
+                    background: theme === 'dark'
+                        ? 'linear-gradient(to bottom, rgba(5,5,10,0.6), rgba(10,10,20,0.8))'
+                        : 'rgba(255,255,255,0.6)',
+                    backdropFilter: 'blur(8px)' // Reduced blur for clarity
                 }} />
             </div>
 

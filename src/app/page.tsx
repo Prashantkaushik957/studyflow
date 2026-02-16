@@ -35,17 +35,34 @@ export default function RoleSelectionPage() {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 24,
-      background: '#000000', // True Black OLED
+      position: 'relative',
+      overflow: 'hidden',
       color: '#ffffff',
       fontFamily: "'Inter', sans-serif"
     }}>
+
+      {/* Background Image (Restored) */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <Image
+          src="/assets/bg_landing.png"
+          alt="Background"
+          fill
+          style={{ objectFit: 'cover', opacity: 0.6 }} // Lower opacity for OLED feel
+          quality={100}
+          priority
+        />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.85) 50%, #000000 100%)', // Deep fade
+        }} />
+      </div>
 
       {/* Content */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        style={{ width: '100%', maxWidth: 480, textAlign: 'center' }}
+        style={{ width: '100%', maxWidth: 480, textAlign: 'center', position: 'relative', zIndex: 1 }}
       >
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 40 }}>
